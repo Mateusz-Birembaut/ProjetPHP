@@ -44,6 +44,21 @@ class ControllerPanier {
 
     }
 
+    public static function supprimerProduitPanierPOST(){
+
+        unset($_SESSION["panier"][$_POST["idProduit"]]);
+
+        if(empty($_SESSION["panier"])){
+            unset($_SESSION["panier"]);
+        }
+
+        $view = 'panier';
+        $pagetitle = 'Panier';
+        
+        require File::build_path(array("view","view.php")); 
+
+    }
+
     public static function updateQuantite() {
 
         if(array_key_exists($_GET["idProduit"],$_SESSION["panier"])){
@@ -83,7 +98,7 @@ class ControllerPanier {
 
                 if($newquantié == 0){
 
-                    ControllerPanier::supprimerProduitPanier();
+                    ControllerPanier::supprimerProduitPanierPOST();
 
                 }else {
 
