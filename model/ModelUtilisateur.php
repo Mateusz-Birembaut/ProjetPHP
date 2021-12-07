@@ -82,4 +82,26 @@ class ModelUtilisateur extends Model{
 
     }
 
+        public static function searchLogin($login){
+
+            $sql = "select login from p_utilisateur WHERE p_utilisateur.login=:login";
+
+            $req_prep = Model::getPDO()->prepare($sql);
+
+            $values = array(
+                "login"=>$login,
+            );
+            
+            $req_prep->execute($values);
+
+            $util = $req_prep->fetchAll();
+
+            if (empty($util)){
+                return false;
+            }else {
+                return true;
+            }
+
+        }
+
 }

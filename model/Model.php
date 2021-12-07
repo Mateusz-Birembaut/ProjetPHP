@@ -16,7 +16,7 @@ class Model {
 
 		self::$pdo = new PDO("mysql:host=$hostname;dbname=$database_name",$login,$password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
-		self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		} catch (PDOException $e) {
   		  if (Conf::getDebug()) {
@@ -127,41 +127,44 @@ class Model {
     
 
     public static function save(){
-    	$table_name = "p_".static::$object;
-    	$primary_key = static::$primary;
-
-        $values = array();
-
-
-		$sql ="INSERT INTO $table_name (";
-
-		foreach ($_POST as $champ => $value) {
-			if( $champ != "action" && $champ != "controller" && $champ != "idProduit" && $champ != "mdpConfirm"){
-    		$sql = $sql . "$champ, "; 
-    		$values["$champ"] = $value;
-    		}
-		}
-		$sql = rtrim($sql,", ");
-    	
-    	$sql = $sql . ") VALUES (";
-    	
-    	foreach ($_POST as $champ => $value) {
-    		if( $champ != "action" && $champ != "controller" && $champ != "idProduit" && $champ != "mdpConfirm"){
-    		$sql = $sql . ":$champ, "; 
-    	    }
-		}
-		$sql = rtrim($sql,", ");
-    		
-    	$sql = $sql . ")";
-
-    	$req_prep = Model::getPDO()->prepare($sql);
-
 
         try{
 
-        $req_prep->execute($values);
+        	$table_name = "p_".static::$object;
+        	$primary_key = static::$primary;
 
-        } catch(\PDOException $e){
+            $values = array();
+
+
+    		$sql ="INSERT INTO $table_name (";
+
+    		foreach ($_POST as $champ => $value) {
+    			if( $champ != "action" && $champ != "controller" && $champ != "idProduit" && $champ != "mdpConfirm"){
+        		$sql = $sql . "$champ, "; 
+        		$values["$champ"] = $value;
+        		}
+    		}
+    		$sql = rtrim($sql,", ");
+        	
+        	$sql = $sql . ") VALUES (";
+        	
+        	foreach ($_POST as $champ => $value) {
+        		if( $champ != "action" && $champ != "controller" && $champ != "idProduit" && $champ != "mdpConfirm"){
+        		$sql = $sql . ":$champ, "; 
+        	    }
+    		}
+    		$sql = rtrim($sql,", ");
+        		
+        	$sql = $sql . ")";
+
+        	$req_prep = Model::getPDO()->prepare($sql);
+
+
+            $req_prep->execute($values);
+
+        } catch(PDOException $e){
+            var_dump("eazeazeazeaz");
+            var_dump($e->errorInfo[1]);
             if($e->errorInfo[1] == 1062) {
                 return false;
             }

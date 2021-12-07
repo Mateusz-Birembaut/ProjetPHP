@@ -178,10 +178,9 @@ class ControllerUtilisateur {
                 require File::build_path(array("view","view.php")); 
             }else {
                 $_POST['mdp'] = Security::hacher($_POST['mdp']);
-                $error = ModelUtilisateur::save(); 
-                $login = "";
-                
-                if($error == FALSE){
+                $errorInsert = ModelUtilisateur::searchLogin($_POST["login"]);
+
+                if($errorInsert == true){
 
                             $view='update';
                             $pagetitle = "Login déjà utilisé";
@@ -201,12 +200,16 @@ class ControllerUtilisateur {
                             require File::build_path(array("view", "view.php"));
                 }else {
 
+
+                ModelUtilisateur::save(); 
+
+                $login = $_POST["login"];
                 $view='created';
                 $pagetitle='Utilisateur Crée';
 
                 mail($_POST['email'], 
                     "Validation Email",
-                    'Ouvrez ce lien pour valider votre email : https://webinfo.iutmontp.univ-montp2.fr/~birembautm/ProjetPHP/index.php?controller=utilisateur&action=validate&login="'.rawurlencode($_POST['login']).'"&nonce="'.rawurlencode($_POST['nonce']).'"');
+                    'Ouvrez ce lien pour valider votre email : https://webinfo.iutmontp.univ-montp2.fr/~birembautm/ProjetPHP/index.php?controller=utilisateur&action=validate&login="'.rawurlencode($_POST['login']).'"&nonce="'.rawurlencode($_POST['nonce']).'');
 
                 require File::build_path(array("view","view.php"));
                 } 

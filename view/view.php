@@ -3,7 +3,7 @@
 <html lang="fr">
     <head>  
         <meta charset="UTF-8">
-        <style> <?php require_once 'view/style.css'; ?> </style>
+        <link rel="stylesheet" href="view/style.css">
         <title><?php echo $pagetitle;?></title>
     </head>
     
