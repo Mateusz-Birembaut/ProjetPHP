@@ -18,7 +18,13 @@
             <?php 
             echo "<input type='hidden' name='action' value=\"quantiteUpdated\">";
             echo '<input type=\'hidden\' name=\'controller\' value="panier">';
-            echo "<input type='hidden' name='idProduit' value=".rawurldecode($_GET["idProduit"]).">";
+
+            if(isset($_GET["idProduit"])){
+
+                echo "<input type='hidden' name='idProduit' value=".rawurldecode($_GET["idProduit"]).">";
+            }else {
+                echo "<input type='hidden' name='idProduit' value=".rawurldecode($_POST["idProduit"]).">";
+            }
             ?>
             <p>
                 Mise a jour quantité <?php echo "$nomProduit"; ?> :
@@ -34,7 +40,13 @@
 
             <label for="newQuantite">Quantité</label> :
             <?php
-            echo "<input type='number' value='". htmlspecialchars($_SESSION["panier"][$_GET["idProduit"]]) ."'  placeholder='Ex : 1' name='newQuantite' id='newQuantite' required/>";
+            if(isset($_GET["idProduit"])){
+                echo "<input type='number' value='". htmlspecialchars($_SESSION["panier"][$_GET["idProduit"]]) ."'  placeholder='Ex : 1' name='newQuantite' id='newQuantite' required/>";
+            }
+
+            else {
+                echo "<input type='number' value='". htmlspecialchars($_SESSION["panier"][$_POST["idProduit"]]) ."'  placeholder='Ex : 1' name='newQuantite' id='newQuantite' required/>";
+            }
             ?>
             </p>
             
